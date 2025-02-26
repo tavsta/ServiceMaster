@@ -10,6 +10,8 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import TermsOfService from "@/pages/terms-of-service";
+import WarrantyPolicy from "@/pages/warranty-policy";
 
 function Router() {
   return (
@@ -18,6 +20,8 @@ function Router() {
       <main className="flex-1">
         <Switch>
           <Route path="/" component={Home} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/warranty-policy" component={WarrantyPolicy} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/book" component={Book} />
           <Route path="/login" component={Login} />
