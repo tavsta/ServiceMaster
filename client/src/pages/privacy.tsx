@@ -60,23 +60,13 @@ export default function Privacy() {
           <li>Cần thiết để cung cấp dịch vụ (như đối tác kỹ thuật)</li>
         </ul>
 
-        <h2>6. Cookies và công nghệ theo dõi</h2>
-        <p>
-          Website của chúng tôi sử dụng cookies và các công nghệ tương tự để:
-        </p>
-        <ul>
-          <li>Duy trì phiên đăng nhập</li>
-          <li>Ghi nhớ tùy chọn của người dùng</li>
-          <li>Phân tích và cải thiện hiệu suất website</li>
-        </ul>
-
-        <h2>7. Thay đổi chính sách</h2>
+        <h2>6. Thay đổi chính sách</h2>
         <p>
           Yes1 có thể cập nhật chính sách bảo mật theo thời gian. Khi có thay đổi quan trọng, 
           chúng tôi sẽ thông báo cho bạn thông qua email hoặc thông báo trên ứng dụng.
         </p>
 
-        <h2>8. Liên hệ</h2>
+        <h2>7. Liên hệ</h2>
         <p>
           Nếu bạn có thắc mắc về chính sách bảo mật hoặc cách chúng tôi xử lý dữ liệu của bạn, 
           vui lòng liên hệ:
