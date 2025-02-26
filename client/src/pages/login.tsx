@@ -47,6 +47,7 @@ export default function Login() {
     },
     onSuccess: () => {
       setStep("otp");
+      otpForm.reset(); // Reset the form when switching to OTP step
       toast({
         title: "Mã OTP đã được gửi",
         description: "Vui lòng kiểm tra điện thoại của bạn",
@@ -63,13 +64,25 @@ export default function Login() {
 
   const verifyOtp = useMutation({
     mutationFn: async (otp: string) => {
-      await apiRequest("POST", "/api/auth/verify-otp", { phone, otp });
+      const response = await apiRequest("POST", "/api/auth/verify-otp", { phone, otp });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      return response.json();
     },
     onSuccess: () => {
       toast({
         title: "Đăng nhập thành công",
       });
       navigate("/");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Lỗi xác thực",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -138,7 +151,21 @@ export default function Login() {
                       <FormItem>
                         <FormLabel>Mã OTP</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="Nhập mã OTP" maxLength={6} value={field.value} />
+                          <Input 
+                            placeholder="Nhập mã OTP" 
+                            maxLength={6}
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            autoComplete="one-time-code"
+                            // Don't use field.value directly to prevent inheriting phone number
+                            {...field}
+                            value={field.value || ''} // Ensure empty string if value is undefined
+                            onChange={(e) => {
+                              // Only allow numeric input and limit to 6 characters
+                              const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                              field.onChange(value);
+                            }}
+                          />
                         </FormControl>
                       </FormItem>
                     )}
@@ -161,6 +188,15 @@ export default function Login() {
                       Xác nhận
                     </Button>
                   </div>
+                  <Button
+                    type="button"
+                    variant="link"
+                    onClick={() => requestOtp.mutate(phone)}
+                    disabled={requestOtp.isPending}
+                    className="w-full mt-2"
+                  >
+                    Gửi lại mã OTP
+                  </Button>
                 </form>
               </Form>
             )}
