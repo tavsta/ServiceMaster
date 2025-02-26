@@ -5,11 +5,12 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeft } from "lucide-react";
 
 const phoneSchema = z.object({
   phone: z.string().min(10).max(11),
@@ -31,6 +32,9 @@ export default function Login() {
 
   const otpForm = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
+    defaultValues: {
+      otp: "",
+    },
   });
 
   const requestOtp = useMutation({
@@ -41,7 +45,7 @@ export default function Login() {
       setStep("otp");
       toast({
         title: "Mã OTP đã được gửi",
-        description: "Vui lòng kiểm tra điện thoại của bạn",
+        description: "Vui lòng nhập mã OTP: 123456",
       });
     },
   });
@@ -67,12 +71,22 @@ export default function Login() {
     verifyOtp.mutate(data.otp);
   };
 
+  const handleBack = () => {
+    setStep("phone");
+    otpForm.reset();
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>Đăng nhập</CardTitle>
+            {step === "otp" && (
+              <CardDescription>
+                Số điện thoại: {phone}
+              </CardDescription>
+            )}
           </CardHeader>
           <CardContent>
             {step === "phone" ? (
@@ -105,14 +119,32 @@ export default function Login() {
                       <FormItem>
                         <FormLabel>Mã OTP</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="123456" />
+                          <Input {...field} placeholder="123456" maxLength={6} />
                         </FormControl>
+                        <FormDescription>
+                          Mã OTP mặc định là: 123456
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full" disabled={verifyOtp.isPending}>
-                    Xác nhận
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={handleBack}
+                      className="flex items-center gap-2"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      Quay lại
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      className="flex-1" 
+                      disabled={verifyOtp.isPending}
+                    >
+                      Xác nhận
+                    </Button>
+                  </div>
                 </form>
               </Form>
             )}
