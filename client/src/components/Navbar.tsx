@@ -32,7 +32,10 @@ export default function Navbar() {
     <nav className="border-b">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
-          <a className="font-bold text-2xl text-primary">Yes1</a>
+          <a className="flex items-center gap-2">
+            <img src="https://admin.yes1.vn/favicon.png" alt="Yes1" className="h-8 w-8" />
+            <span className="font-bold text-2xl text-primary">Yes1</span>
+          </a>
         </Link>
 
         <div className="flex items-center gap-4">
