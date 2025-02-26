@@ -9,19 +9,23 @@ import Book from "@/pages/book";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 function Router() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/book" component={Book} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route component={NotFound} />
-      </Switch>
+      <main className="flex-1">
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/book" component={Book} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route component={NotFound} />
+        </Switch>
+      </main>
+      <Footer />
     </div>
   );
 }
