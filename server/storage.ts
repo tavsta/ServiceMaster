@@ -37,13 +37,13 @@ export class MemStorage implements IStorage {
         id: 1,
         name: "Điều hoà",
         description: "Sửa chữa, bảo dưỡng và lắp đặt điều hoà. Vệ sinh, nạp gas, thay thế linh kiện chính hãng.",
-        imageUrl: "https://images.unsplash.com/photo-1581498863244-8490f5aa13fe",
+        imageUrl: "https://images.unsplash.com/photo-1631545308456-3fda9ed982cd",
       },
       {
         id: 2,
         name: "Tivi",
         description: "Sửa chữa và cài đặt tivi. Khắc phục các lỗi màn hình, âm thanh. Cập nhật phần mềm.",
-        imageUrl: "https://images.unsplash.com/photo-1593784991095-a205069533cd",
+        imageUrl: "https://images.unsplash.com/photo-1577979749830-f1d742b96791",
       },
       {
         id: 3,
