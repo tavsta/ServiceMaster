@@ -36,26 +36,26 @@ export class MemStorage implements IStorage {
       {
         id: 1,
         name: "Điều hoà",
-        description: "Sửa chữa, bảo dưỡng và lắp đặt điều hoà",
-        imageUrl: "https://images.unsplash.com/photo-1552853160-8ec65527b252",
+        description: "Sửa chữa, bảo dưỡng và lắp đặt điều hoà. Vệ sinh, nạp gas, thay thế linh kiện chính hãng.",
+        imageUrl: "https://images.unsplash.com/photo-1581498863244-8490f5aa13fe",
       },
       {
         id: 2,
         name: "Tivi",
-        description: "Sửa chữa và cài đặt tivi",
-        imageUrl: "https://images.unsplash.com/photo-1646821804389-9778ce2a4fd7",
+        description: "Sửa chữa và cài đặt tivi. Khắc phục các lỗi màn hình, âm thanh. Cập nhật phần mềm.",
+        imageUrl: "https://images.unsplash.com/photo-1593784991095-a205069533cd",
       },
       {
         id: 3,
         name: "Tủ lạnh",
-        description: "Sửa chữa và bảo dưỡng tủ lạnh",
-        imageUrl: "https://images.unsplash.com/photo-1597423498219-04418210827d",
+        description: "Sửa chữa và bảo dưỡng tủ lạnh. Xử lý rò rỉ gas, thay thế block, sửa board mạch.",
+        imageUrl: "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30",
       },
       {
         id: 4,
         name: "Máy giặt",
-        description: "Sửa chữa và bảo dưỡng máy giặt",
-        imageUrl: "https://images.unsplash.com/photo-1597423498089-af6fa7d122bf",
+        description: "Sửa chữa và bảo dưỡng máy giặt. Thay thế động cơ, dây curoa, bơm nước. Vệ sinh lồng giặt.",
+        imageUrl: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1",
       },
     ];
 
