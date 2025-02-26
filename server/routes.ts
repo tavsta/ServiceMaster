@@ -9,13 +9,47 @@ export async function registerRoutes(app: Express) {
   // Auth routes
   app.post("/api/auth/request-otp", async (req, res) => {
     const { phone } = req.body;
-    
-    let user = await storage.getUserByPhone(phone);
+
+    const user = await storage.getUserByPhone(phone);
     if (!user) {
-      user = await storage.createUser({ phone });
+      return res.status(400).json({ 
+        message: "Số điện thoại chưa được đăng ký. Vui lòng đăng ký trước." 
+      });
     }
-    
+
     // In production, send real OTP. Here we use static 123456
+    res.json({ success: true });
+  });
+
+  app.post("/api/auth/register/request-otp", async (req, res) => {
+    const { phone } = req.body;
+
+    const existingUser = await storage.getUserByPhone(phone);
+    if (existingUser) {
+      return res.status(400).json({ 
+        message: "Số điện thoại đã được đăng ký. Vui lòng đăng nhập." 
+      });
+    }
+
+    // In production, send real OTP
+    res.json({ success: true });
+  });
+
+  app.post("/api/auth/register/verify-otp", async (req, res) => {
+    const result = verifyOtpSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+
+    const { phone, otp } = result.data;
+
+    if (otp !== "123456") {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    const user = await storage.createUser({ phone });
+    await storage.updateUserAuth(user.id, true);
+
     res.json({ success: true });
   });
 
@@ -26,7 +60,7 @@ export async function registerRoutes(app: Express) {
     }
 
     const { phone, otp } = result.data;
-    
+
     if (otp !== "123456") {
       return res.status(400).json({ error: "Invalid OTP" });
     }
@@ -38,7 +72,7 @@ export async function registerRoutes(app: Express) {
 
     await storage.updateUserAuth(user.id, true);
     req.session.userId = user.id;
-    
+
     res.json({ success: true });
   });
 
@@ -46,6 +80,16 @@ export async function registerRoutes(app: Express) {
     req.session.destroy(() => {
       res.json({ success: true });
     });
+  });
+
+  app.get("/api/auth/me", async (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      return res.status(401).json(null);
+    }
+
+    const user = await storage.getUser(userId);
+    res.json(user);
   });
 
   // Service routes

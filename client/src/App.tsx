@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import Privacy from "@/pages/privacy";
 import Book from "@/pages/book";
 import Login from "@/pages/login";
+import Register from "@/pages/register";
 import Navbar from "@/components/Navbar";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
         <Route path="/privacy" component={Privacy} />
         <Route path="/book" component={Book} />
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route component={NotFound} />
       </Switch>
     </div>

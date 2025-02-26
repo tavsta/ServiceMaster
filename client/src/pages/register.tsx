@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 
 const phoneSchema = z.object({
   phone: z.string().min(10).max(11),
@@ -20,7 +21,7 @@ const otpSchema = z.object({
   otp: z.string().length(6),
 });
 
-export default function Login() {
+export default function Register() {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
   const [, navigate] = useLocation();
@@ -39,11 +40,7 @@ export default function Login() {
 
   const requestOtp = useMutation({
     mutationFn: async (phone: string) => {
-      const response = await apiRequest("POST", "/api/auth/request-otp", { phone });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
+      await apiRequest("POST", "/api/auth/register/request-otp", { phone });
     },
     onSuccess: () => {
       setStep("otp");
@@ -52,24 +49,18 @@ export default function Login() {
         description: "Vui lòng kiểm tra điện thoại của bạn",
       });
     },
-    onError: (error: Error) => {
-      toast({
-        title: "Lỗi",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
   });
 
   const verifyOtp = useMutation({
     mutationFn: async (otp: string) => {
-      await apiRequest("POST", "/api/auth/verify-otp", { phone, otp });
+      await apiRequest("POST", "/api/auth/register/verify-otp", { phone, otp });
     },
     onSuccess: () => {
       toast({
-        title: "Đăng nhập thành công",
+        title: "Đăng ký thành công",
+        description: "Vui lòng đăng nhập để tiếp tục",
       });
-      navigate("/");
+      navigate("/login");
     },
   });
 
@@ -92,7 +83,7 @@ export default function Login() {
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle>Đăng nhập</CardTitle>
+            <CardTitle>Đăng ký</CardTitle>
             {step === "otp" && (
               <CardDescription>
                 Số điện thoại: {phone}
@@ -120,9 +111,9 @@ export default function Login() {
                       Tiếp tục
                     </Button>
                     <p className="text-sm text-center text-muted-foreground">
-                      Chưa có tài khoản?{" "}
-                      <Link href="/register" className="text-primary hover:underline">
-                        Đăng ký
+                      Đã có tài khoản?{" "}
+                      <Link href="/login" className="text-primary hover:underline">
+                        Đăng nhập
                       </Link>
                     </p>
                   </div>
